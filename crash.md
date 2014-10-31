@@ -11,7 +11,7 @@ This dataset shows the position of vehicular crash incidents in Queensland. This
 ```r
 time<-Sys.time()
 ```
-This code was last interpreted on *2014-10-31 17:13:27*  
+This code was last interpreted on *2014-10-31 23:44:48*  
 
 
 -Download data from the following adress **[click to open QLD Data](https://data.qld.gov.au/dataset/crash-data-from-queensland-roads)**
@@ -67,14 +67,14 @@ plot(M1)
 ```
 
 <!-- MotionChart generated in R 3.0.2 by googleVis 0.5.6 package -->
-<!-- Fri Oct 31 17:13:28 2014 -->
+<!-- Fri Oct 31 23:44:49 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataMotionChartID47a858906f26 () {
+function gvisDataMotionChartID21ec40f52549 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -502,15 +502,15 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartMotionChartID47a858906f26() {
-var data = gvisDataMotionChartID47a858906f26();
+function drawChartMotionChartID21ec40f52549() {
+var data = gvisDataMotionChartID21ec40f52549();
 var options = {};
 options["width"] =    600;
 options["height"] =    500;
 options["state"] = "";
 
     var chart = new google.visualization.MotionChart(
-    document.getElementById('MotionChartID47a858906f26')
+    document.getElementById('MotionChartID21ec40f52549')
     );
     chart.draw(data,options);
     
@@ -534,9 +534,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartMotionChartID47a858906f26);
+callbacks.push(drawChartMotionChartID21ec40f52549);
 })();
-function displayChartMotionChartID47a858906f26() {
+function displayChartMotionChartID21ec40f52549() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -560,11 +560,11 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID47a858906f26"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID21ec40f52549"></script>
  
 <!-- divChart -->
   
-<div id="MotionChartID47a858906f26" 
+<div id="MotionChartID21ec40f52549" 
   style="width: 600; height: 500;">
 </div>
 
@@ -578,14 +578,14 @@ plot(M2)
 ```
 
 <!-- MotionChart generated in R 3.0.2 by googleVis 0.5.6 package -->
-<!-- Fri Oct 31 17:13:28 2014 -->
+<!-- Fri Oct 31 23:44:50 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataMotionChartID47a833d03ce () {
+function gvisDataMotionChartID21ec2d99455a () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -943,15 +943,15 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartMotionChartID47a833d03ce() {
-var data = gvisDataMotionChartID47a833d03ce();
+function drawChartMotionChartID21ec2d99455a() {
+var data = gvisDataMotionChartID21ec2d99455a();
 var options = {};
 options["width"] =    600;
 options["height"] =    500;
 options["state"] = "";
 
     var chart = new google.visualization.MotionChart(
-    document.getElementById('MotionChartID47a833d03ce')
+    document.getElementById('MotionChartID21ec2d99455a')
     );
     chart.draw(data,options);
     
@@ -975,9 +975,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartMotionChartID47a833d03ce);
+callbacks.push(drawChartMotionChartID21ec2d99455a);
 })();
-function displayChartMotionChartID47a833d03ce() {
+function displayChartMotionChartID21ec2d99455a() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -1001,11 +1001,142 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID47a833d03ce"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID21ec2d99455a"></script>
  
 <!-- divChart -->
   
-<div id="MotionChartID47a833d03ce" 
+<div id="MotionChartID21ec2d99455a" 
   style="width: 600; height: 500;">
+</div>
+
+-Subset table for fatalities and vreates variable with latitude and Longitude
+
+```r
+loc2=loc[,c(3,4,39,9,10)]
+```
+-Aggregate fatalities by coordinates
+
+```r
+loc2$Crash_Longitude_GDA94_1=round(loc2$Crash_Longitude_GDA94,2)
+loc2$Crash_Latitude_GDA94_1=round(loc2$Crash_Latitude_GDA94,2)
+loc2$latlong<-paste(loc2$Crash_Latitude_GDA94_1, loc2$Crash_Longitude_GDA94_1, sep=":")
+loc3=aggregate(loc2$Count_Casualty_Fatality,by=list(coordinate=loc2$Count_Casualty_Fatality),sum,na=TRUE)
+```
+
+
+-Create a Geo graphic with fatality crashs
+
+```r
+M3= gvisGeoChart(loc3, "x",
+                   options=list(displayMode="Markers", region="009",
+                   colorAxis="{colors:['red', 'grey']}",
+                   backgroundColor="lightblue"))
+plot(M3)
+```
+
+<!-- GeoChart generated in R 3.0.2 by googleVis 0.5.6 package -->
+<!-- Fri Oct 31 23:44:50 2014 -->
+
+
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID21ec590c6181 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "1" 
+],
+[
+ "3410" 
+],
+[
+ "479" 
+],
+[
+ "112" 
+],
+[
+ "45" 
+],
+[
+ "31" 
+] 
+];
+data.addColumn('string','x');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID21ec590c6181() {
+var data = gvisDataGeoChartID21ec590c6181();
+var options = {};
+options["width"] =    556;
+options["height"] =    347;
+options["displayMode"] = "Markers";
+options["region"] = "009";
+options["colorAxis"] = {colors:['red', 'grey']};
+options["backgroundColor"] = "lightblue";
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID21ec590c6181')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID21ec590c6181);
+})();
+function displayChartGeoChartID21ec590c6181() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+<!-- jsChart -->  
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID21ec590c6181"></script>
+ 
+<!-- divChart -->
+  
+<div id="GeoChartID21ec590c6181" 
+  style="width: 556; height: 347;">
 </div>
 

@@ -66,7 +66,7 @@ plot(M1)
 loca=aggregate(loc1$Count_Casualty_Fatality,by= list(year=loc1$Crash_Year,speed=loc1$Crash_Speed_Limit),sum,na=TRUE)
 
 ```
-```{r,cache=TRUE}
+```{r,results='asis'}
 
 M2 <- gvisMotionChart(loca, idvar="speed", timevar="year")
 plot(M2)
@@ -75,11 +75,20 @@ plot(M2)
 -Subset table for fatalities and vreates variable with latitude and Longitude
 ```{r,cache=TRUE}
 loc2=loc[,c(3,4,39,9,10)]
-loc2$latlong<-paste(loc2$Crash_Latitude_GDA94, loc2$Crash_Longitude_GDA94, sep=":")
+
 ```
+-Aggregate fatalities by coordinates
+```{r,cache=TRUE}
+loc2$Crash_Longitude_GDA94_1=round(loc2$Crash_Longitude_GDA94,2)
+loc2$Crash_Latitude_GDA94_1=round(loc2$Crash_Latitude_GDA94,2)
+loc2$latlong<-paste(loc2$Crash_Latitude_GDA94_1, loc2$Crash_Longitude_GDA94_1, sep=":")
+loc3=aggregate(loc2$Count_Casualty_Fatality,by=list(coordinate=loc2$Count_Casualty_Fatality),sum,na=TRUE)
+```
+
+
 -Create a Geo graphic with fatality crashs
 ```{r,results='asis'}
-M3= gvisGeoChart(loc2, "Count_Casualty_Fatality",
+M3= gvisGeoChart(loc3, "x",
                    options=list(displayMode="Markers", region="009",
                    colorAxis="{colors:['red', 'grey']}",
                    backgroundColor="lightblue"))
