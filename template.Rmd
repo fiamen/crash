@@ -1,6 +1,6 @@
 
 ---
-title: 'Reproducible Research: Peer Assessment 1 '
+title: 'Road crash locations - Queensland '
 author: "Mario Fiamenghi"
 output:
   html_document:
@@ -8,7 +8,7 @@ output:
     keep_md: yes
 ---
 ###1.Introduction  
-This report details the procedures in order to answer questions to the peer assessment `project 1`.
+This dataset shows the position of vehicular crash incidents in Queensland. This includes fatalities, injuries and vehicular damage. The point of truth for this dataset is the Queensland government open data website at,https://data.qld.gov.au/dataset/crash-data-from-queensland-roads.
 
 ###2.Loading the  Dataset
 - Create the variable time to report the system time to be used in the following line
