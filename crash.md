@@ -11,7 +11,7 @@ This dataset shows the position of vehicular crash incidents in Queensland. This
 ```r
 time<-Sys.time()
 ```
-This code was last interpreted on *2014-10-31 23:44:48*  
+This code was last interpreted on *2014-11-03 15:02:38*  
 
 
 -Download data from the following adress **[click to open QLD Data](https://data.qld.gov.au/dataset/crash-data-from-queensland-roads)**
@@ -24,6 +24,7 @@ This code was last interpreted on *2014-10-31 23:44:48*
 
 ```r
 loc=read.csv("../../data/locations (1).csv")
+loc$latlon=paste0(loc$Crash_Latitude_GDA94,":",loc$Crash_Longitude_GDA94)
 ```
 - Subset table
 
@@ -67,14 +68,14 @@ plot(M1)
 ```
 
 <!-- MotionChart generated in R 3.0.2 by googleVis 0.5.6 package -->
-<!-- Fri Oct 31 23:44:49 2014 -->
+<!-- Mon Nov 03 15:02:39 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataMotionChartID21ec40f52549 () {
+function gvisDataMotionChartID1fb427153cd9 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -502,15 +503,15 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartMotionChartID21ec40f52549() {
-var data = gvisDataMotionChartID21ec40f52549();
+function drawChartMotionChartID1fb427153cd9() {
+var data = gvisDataMotionChartID1fb427153cd9();
 var options = {};
 options["width"] =    600;
 options["height"] =    500;
 options["state"] = "";
 
     var chart = new google.visualization.MotionChart(
-    document.getElementById('MotionChartID21ec40f52549')
+    document.getElementById('MotionChartID1fb427153cd9')
     );
     chart.draw(data,options);
     
@@ -534,9 +535,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartMotionChartID21ec40f52549);
+callbacks.push(drawChartMotionChartID1fb427153cd9);
 })();
-function displayChartMotionChartID21ec40f52549() {
+function displayChartMotionChartID1fb427153cd9() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -560,11 +561,11 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID21ec40f52549"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID1fb427153cd9"></script>
  
 <!-- divChart -->
   
-<div id="MotionChartID21ec40f52549" 
+<div id="MotionChartID1fb427153cd9" 
   style="width: 600; height: 500;">
 </div>
 
@@ -578,14 +579,14 @@ plot(M2)
 ```
 
 <!-- MotionChart generated in R 3.0.2 by googleVis 0.5.6 package -->
-<!-- Fri Oct 31 23:44:50 2014 -->
+<!-- Mon Nov 03 15:02:39 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataMotionChartID21ec2d99455a () {
+function gvisDataMotionChartID1fb4193015ad () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -943,15 +944,15 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartMotionChartID21ec2d99455a() {
-var data = gvisDataMotionChartID21ec2d99455a();
+function drawChartMotionChartID1fb4193015ad() {
+var data = gvisDataMotionChartID1fb4193015ad();
 var options = {};
 options["width"] =    600;
 options["height"] =    500;
 options["state"] = "";
 
     var chart = new google.visualization.MotionChart(
-    document.getElementById('MotionChartID21ec2d99455a')
+    document.getElementById('MotionChartID1fb4193015ad')
     );
     chart.draw(data,options);
     
@@ -975,9 +976,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartMotionChartID21ec2d99455a);
+callbacks.push(drawChartMotionChartID1fb4193015ad);
 })();
-function displayChartMotionChartID21ec2d99455a() {
+function displayChartMotionChartID1fb4193015ad() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -1001,11 +1002,11 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID21ec2d99455a"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID1fb4193015ad"></script>
  
 <!-- divChart -->
   
-<div id="MotionChartID21ec2d99455a" 
+<div id="MotionChartID1fb4193015ad" 
   style="width: 600; height: 500;">
 </div>
 
@@ -1019,70 +1020,103 @@ loc2=loc[,c(3,4,39,9,10)]
 ```r
 loc2$Crash_Longitude_GDA94_1=round(loc2$Crash_Longitude_GDA94,2)
 loc2$Crash_Latitude_GDA94_1=round(loc2$Crash_Latitude_GDA94,2)
-loc2$latlong<-paste(loc2$Crash_Latitude_GDA94_1, loc2$Crash_Longitude_GDA94_1, sep=":")
-loc3=aggregate(loc2$Count_Casualty_Fatality,by=list(coordinate=loc2$Count_Casualty_Fatality),sum,na=TRUE)
+loc2$latlong<-paste0(loc2$Crash_Latitude_GDA94_1, loc2$Crash_Longitude_GDA94_1, sep=":")
+loc3=aggregate(loc2$Count_Casualty_Fatality,by=list(coordinate=loc2$latlong),sum,na=TRUE)
 ```
 
 
 -Create a Geo graphic with fatality crashs
 
 ```r
-M3= gvisGeoChart(loc3, "x",
-                   options=list(displayMode="Markers", region="009",
-                   colorAxis="{colors:['red', 'grey']}",
-                   backgroundColor="lightblue"))
-plot(M3)
+G4 <- gvisGeoMap(loc[1:10,], locationvar="latlon", numvar="Count_Casualty_Total",
+                 
+                 options=list(height=350, region="AU",dataMode="markers",regionClick=TRUE))
+
+plot(G4)
 ```
 
-<!-- GeoChart generated in R 3.0.2 by googleVis 0.5.6 package -->
-<!-- Fri Oct 31 23:44:50 2014 -->
+<!-- GeoMap generated in R 3.0.2 by googleVis 0.5.6 package -->
+<!-- Mon Nov 03 15:02:40 2014 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataGeoChartID21ec590c6181 () {
+function gvisDataGeoMapID1fb440345b33 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
  [
- "1" 
+ -16.63736445,
+139.2438277,
+4 
 ],
 [
- "3410" 
+ -16.92495839,
+145.7645919,
+0 
 ],
 [
- "479" 
+ -27.81885814,
+153.2849816,
+2 
 ],
 [
- "112" 
+ -26.79602439,
+153.109064,
+1 
 ],
 [
- "45" 
+ -27.47618292,
+153.0357624,
+1 
 ],
 [
- "31" 
+ -25.28620516,
+152.8725434,
+0 
+],
+[
+ -27.52203568,
+153.0257546,
+4 
+],
+[
+ -19.34190784,
+146.7136426,
+3 
+],
+[
+ -27.55597216,
+153.0080452,
+1 
+],
+[
+ -28.03467236,
+153.42723,
+1 
 ] 
 ];
-data.addColumn('string','x');
+data.addColumn('number','Latitude');
+data.addColumn('number','Longitude');
+data.addColumn('number','Count_Casualty_Total');
 data.addRows(datajson);
 return(data);
 }
  
 // jsDrawChart
-function drawChartGeoChartID21ec590c6181() {
-var data = gvisDataGeoChartID21ec590c6181();
+function drawChartGeoMapID1fb440345b33() {
+var data = gvisDataGeoMapID1fb440345b33();
 var options = {};
+options["dataMode"] = "markers";
 options["width"] =    556;
-options["height"] =    347;
-options["displayMode"] = "Markers";
-options["region"] = "009";
-options["colorAxis"] = {colors:['red', 'grey']};
-options["backgroundColor"] = "lightblue";
+options["height"] =    350;
+options["region"] = "AU";
+options["regionClick"] = true;
 
-    var chart = new google.visualization.GeoChart(
-    document.getElementById('GeoChartID21ec590c6181')
+    var chart = new google.visualization.GeoMap(
+    document.getElementById('GeoMapID1fb440345b33')
     );
     chart.draw(data,options);
     
@@ -1094,7 +1128,7 @@ options["backgroundColor"] = "lightblue";
 (function() {
 var pkgs = window.__gvisPackages = window.__gvisPackages || [];
 var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
-var chartid = "geochart";
+var chartid = "geomap";
   
 // Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
 var i, newPackage = true;
@@ -1106,9 +1140,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartGeoChartID21ec590c6181);
+callbacks.push(drawChartGeoMapID1fb440345b33);
 })();
-function displayChartGeoChartID21ec590c6181() {
+function displayChartGeoMapID1fb440345b33() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -1132,11 +1166,604 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID21ec590c6181"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoMapID1fb440345b33"></script>
  
 <!-- divChart -->
   
-<div id="GeoChartID21ec590c6181" 
-  style="width: 556; height: 347;">
+<div id="GeoMapID1fb440345b33" 
+  style="width: 556; height: 350;">
 </div>
+
+```r
+G4 <- gvisMap(loc[1:100,], locationvar="latlon",options=list(mapType='normal')               
+,chartid="2036")
+ plot(G4)
+```
+
+<!-- Map generated in R 3.0.2 by googleVis 0.5.6 package -->
+<!-- Mon Nov 03 15:02:40 2014 -->
+
+
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisData2036 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ -16.63736445,
+139.2438277,
+"Fatal" 
+],
+[
+ -16.92495839,
+145.7645919,
+"Property damage only" 
+],
+[
+ -27.81885814,
+153.2849816,
+"Hospitalisation" 
+],
+[
+ -26.79602439,
+153.109064,
+"Medical treatment" 
+],
+[
+ -27.47618292,
+153.0357624,
+"Hospitalisation" 
+],
+[
+ -25.28620516,
+152.8725434,
+"Property damage only" 
+],
+[
+ -27.52203568,
+153.0257546,
+"Fatal" 
+],
+[
+ -19.34190784,
+146.7136426,
+"Fatal" 
+],
+[
+ -27.55597216,
+153.0080452,
+"Hospitalisation" 
+],
+[
+ -28.03467236,
+153.42723,
+"Hospitalisation" 
+],
+[
+ -25.28865002,
+152.8967132,
+"Hospitalisation" 
+],
+[
+ -25.61394107,
+151.379398,
+"Property damage only" 
+],
+[
+ -27.53098407,
+152.9832075,
+"Medical treatment" 
+],
+[
+ -27.6120346,
+152.8082602,
+"Medical treatment" 
+],
+[
+ -27.37253287,
+153.0622155,
+"Medical treatment" 
+],
+[
+ -19.28935435,
+146.7495139,
+"Medical treatment" 
+],
+[
+ -28.00862339,
+153.429376,
+"Hospitalisation" 
+],
+[
+ -26.72120262,
+153.0446241,
+"Fatal" 
+],
+[
+ -27.47606118,
+152.9885913,
+"Property damage only" 
+],
+[
+ -27.3121871,
+153.0211159,
+"Minor injury" 
+],
+[
+ -27.03088477,
+152.9644158,
+"Fatal" 
+],
+[
+ -27.47250714,
+151.9388762,
+"Property damage only" 
+],
+[
+ -27.60558301,
+152.916235,
+"Property damage only" 
+],
+[
+ -27.90711913,
+153.318607,
+"Medical treatment" 
+],
+[
+ -26.53272468,
+153.0927234,
+"Medical treatment" 
+],
+[
+ -27.28309028,
+152.9832382,
+"Hospitalisation" 
+],
+[
+ -27.36653095,
+153.0619302,
+"Hospitalisation" 
+],
+[
+ -27.44540687,
+153.0269778,
+"Minor injury" 
+],
+[
+ -26.85004417,
+152.9927722,
+"Fatal" 
+],
+[
+ -27.56159832,
+151.9277049,
+"Property damage only" 
+],
+[
+ -27.79978342,
+151.7719237,
+"Hospitalisation" 
+],
+[
+ -27.57660065,
+153.1070217,
+"Medical treatment" 
+],
+[
+ -27.59409775,
+153.1127516,
+"Medical treatment" 
+],
+[
+ -27.51242468,
+153.0403601,
+"Minor injury" 
+],
+[
+ -28.22762315,
+152.0184831,
+"Hospitalisation" 
+],
+[
+ -16.91957276,
+145.7753785,
+"Hospitalisation" 
+],
+[
+ -27.5572902,
+153.0406636,
+"Medical treatment" 
+],
+[
+ -27.41149756,
+152.9626128,
+"Hospitalisation" 
+],
+[
+ -20.20123951,
+148.3719199,
+"Hospitalisation" 
+],
+[
+ -20.78263312,
+148.6130919,
+"Property damage only" 
+],
+[
+ -20.23807941,
+145.8687123,
+"Fatal" 
+],
+[
+ -24.95158902,
+152.3779466,
+"Hospitalisation" 
+],
+[
+ -27.4035079,
+153.0280947,
+"Hospitalisation" 
+],
+[
+ -27.63846264,
+153.118702,
+"Property damage only" 
+],
+[
+ -27.66373859,
+153.1400202,
+"Minor injury" 
+],
+[
+ -27.67834632,
+153.0823518,
+"Fatal" 
+],
+[
+ -24.070764,
+145.337907,
+"Fatal" 
+],
+[
+ -27.64750132,
+153.1491267,
+"Fatal" 
+],
+[
+ -23.38244091,
+150.5067601,
+"Property damage only" 
+],
+[
+ -27.17868033,
+152.3665834,
+"Fatal" 
+],
+[
+ -27.95714769,
+153.4007385,
+"Minor injury" 
+],
+[
+ -23.44466564,
+144.2472927,
+"Fatal" 
+],
+[
+ -27.5241821,
+153.2568239,
+"Medical treatment" 
+],
+[
+ -25.5340442,
+152.7043231,
+"Medical treatment" 
+],
+[
+ -27.71151584,
+151.8593998,
+"Hospitalisation" 
+],
+[
+ -27.45786511,
+153.0355283,
+"Hospitalisation" 
+],
+[
+ -27.58989342,
+151.9393334,
+"Property damage only" 
+],
+[
+ -21.59223595,
+149.0704636,
+"Property damage only" 
+],
+[
+ -27.55336568,
+151.9726171,
+"Property damage only" 
+],
+[
+ -27.55976556,
+153.0812527,
+"Fatal" 
+],
+[
+ -27.45168228,
+153.183832,
+"Medical treatment" 
+],
+[
+ -27.07241391,
+153.0292875,
+"Minor injury" 
+],
+[
+ -17.02427451,
+145.7348819,
+"Fatal" 
+],
+[
+ -27.52028608,
+153.0516966,
+"Property damage only" 
+],
+[
+ -27.42376548,
+152.9964134,
+"Medical treatment" 
+],
+[
+ -27.99326586,
+153.3221571,
+"Fatal" 
+],
+[
+ -27.39975727,
+153.048392,
+"Property damage only" 
+],
+[
+ -23.44377883,
+144.2471312,
+"Fatal" 
+],
+[
+ -27.54123413,
+152.3616012,
+"Fatal" 
+],
+[
+ -24.87371037,
+152.3536691,
+"Fatal" 
+],
+[
+ -23.23460155,
+150.8083648,
+"Hospitalisation" 
+],
+[
+ -17.19752693,
+145.8980894,
+"Medical treatment" 
+],
+[
+ -27.72159023,
+153.2126159,
+"Property damage only" 
+],
+[
+ -27.3424567,
+153.0113262,
+"Medical treatment" 
+],
+[
+ -27.44629753,
+153.0406636,
+"Property damage only" 
+],
+[
+ -27.62706124,
+152.7599097,
+"Property damage only" 
+],
+[
+ -27.40770476,
+153.0751573,
+"Medical treatment" 
+],
+[
+ -28.05833229,
+152.4207449,
+"Fatal" 
+],
+[
+ -27.51878936,
+153.0159146,
+"Minor injury" 
+],
+[
+ -27.95192911,
+153.3847123,
+"Minor injury" 
+],
+[
+ -26.63374416,
+152.9607198,
+"Fatal" 
+],
+[
+ -24.66794842,
+151.6897575,
+"Fatal" 
+],
+[
+ -27.95466638,
+153.4084246,
+"Minor injury" 
+],
+[
+ -26.38642417,
+152.8526729,
+"Fatal" 
+],
+[
+ -27.43269098,
+153.1401328,
+"Fatal" 
+],
+[
+ -27.76882401,
+153.1045367,
+"Fatal" 
+],
+[
+ -27.59339075,
+151.9195828,
+"Fatal" 
+],
+[
+ -23.0321216,
+150.263071,
+"Fatal" 
+],
+[
+ -19.29262282,
+146.7942017,
+"Fatal" 
+],
+[
+ -19.96627191,
+148.0362102,
+"Fatal" 
+],
+[
+ -27.48752132,
+153.0009534,
+"Property damage only" 
+],
+[
+ -26.68251252,
+153.0658442,
+"Medical treatment" 
+],
+[
+ -25.4136732,
+152.7600784,
+"Fatal" 
+],
+[
+ -26.01741479,
+152.7756714,
+"Fatal" 
+],
+[
+ -27.41136298,
+152.9773389,
+"Medical treatment" 
+],
+[
+ -27.48075407,
+153.1281505,
+"Property damage only" 
+],
+[
+ -26.32306653,
+152.7211251,
+"Fatal" 
+],
+[
+ -18.68857225,
+144.7111649,
+"Fatal" 
+],
+[
+ -27.57201213,
+152.6424154,
+"Medical treatment" 
+],
+[
+ -27.95678043,
+153.069846,
+"Fatal" 
+] 
+];
+data.addColumn('number','Latitude');
+data.addColumn('number','Longitude');
+data.addColumn('string','Crash_Severity');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChart2036() {
+var data = gvisData2036();
+var options = {};
+options["showTip"] = true;
+options["mapType"] = "normal";
+
+    var chart = new google.visualization.Map(
+    document.getElementById('2036')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "map";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChart2036);
+})();
+function displayChart2036() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+<!-- jsChart -->  
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChart2036"></script>
+ 
+<!-- divChart -->
+  
+<div id="2036" 
+  style="width: 500; height: automatic;">
+</div>
+
 

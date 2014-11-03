@@ -28,6 +28,7 @@ This code was last interpreted on *`r time`*
 - Reads file as a table to memory *crash location*
 ```{r,cache=TRUE}
 loc=read.csv("../../data/locations (1).csv")
+loc$latlon=paste0(loc$Crash_Latitude_GDA94,":",loc$Crash_Longitude_GDA94)
 ``` 
 - Subset table
 ```{r,cache=TRUE}
@@ -81,18 +82,24 @@ loc2=loc[,c(3,4,39,9,10)]
 ```{r,cache=TRUE}
 loc2$Crash_Longitude_GDA94_1=round(loc2$Crash_Longitude_GDA94,2)
 loc2$Crash_Latitude_GDA94_1=round(loc2$Crash_Latitude_GDA94,2)
-loc2$latlong<-paste(loc2$Crash_Latitude_GDA94_1, loc2$Crash_Longitude_GDA94_1, sep=":")
-loc3=aggregate(loc2$Count_Casualty_Fatality,by=list(coordinate=loc2$Count_Casualty_Fatality),sum,na=TRUE)
+loc2$latlong<-paste0(loc2$Crash_Latitude_GDA94_1, loc2$Crash_Longitude_GDA94_1, sep=":")
+loc3=aggregate(loc2$Count_Casualty_Fatality,by=list(coordinate=loc2$latlong),sum,na=TRUE)
 ```
 
 
 -Create a Geo graphic with fatality crashs
 ```{r,results='asis'}
-M3= gvisGeoChart(loc3, "x",
-                   options=list(displayMode="Markers", region="009",
-                   colorAxis="{colors:['red', 'grey']}",
-                   backgroundColor="lightblue"))
-plot(M3)
+G4 <- gvisGeoMap(loc[1:10,], locationvar="latlon", numvar="Count_Casualty_Total",
+                 
+                 options=list(height=350, region="AU",dataMode="markers",regionClick=TRUE))
+
+plot(G4)
+```
+```{r,results='asis'}
+G4 <- gvisMap(loc[1:100,], locationvar="latlon",options=list(mapType='normal')               
+,chartid="2036")
+ plot(G4)
 
 ```
+
 
